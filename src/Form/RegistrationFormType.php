@@ -50,3 +50,6 @@ class RegistrationFormType extends AbstractType
         ]);
     }
 }
+
+
+// https://symfony.com/doc/current/reference/forms/types/password.html
