@@ -29,7 +29,7 @@ class TopicController extends AbstractController
     public function show(Topic $topic): Response
     {
 // FONCTION QUI RECUPERE LE SUJET DE LA BDD PAR SON ID
-        return $this->render('topic/show.html.twig', [
+        return $this->render('category/topics.html.twig', [
             'topic' => $topic
         ]);
     }

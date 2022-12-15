@@ -6,3 +6,39 @@ nav ul  {
 nav ul li {
     list-style: none;
 }
+
+nav ul li a{
+    text-decoration: none;
+}
+
+h1 {
+    text-align: center;
+}
+
+/*------------------------------- TABLE --------------------------------------*/
+
+table {
+    border-collapse: collapse;
+    border-radius: 1em;
+    margin: auto; 
+}
+
+table th {
+    color:rgb(34,34,34);
+    background-color: #474448;
+    cursor: default;
+}
+
+table td, table th {
+    padding: 1rem;
+}
+
+table td {
+    text-align: center; 
+    background-color: #F1F0EA;
+}
+
+table tr td a {
+    text-decoration: none;
+    color: brown;
+}

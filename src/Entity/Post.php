@@ -34,6 +34,11 @@ class Post
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $datePost;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -76,6 +81,18 @@ class Post
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getDatePost(): ?\DateTimeInterface
+    {
+        return $this->datePost;
+    }
+
+    public function setDatePost(\DateTimeInterface $datePost): self
+    {
+        $this->datePost = $datePost;
 
         return $this;
     }

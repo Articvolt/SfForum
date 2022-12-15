@@ -5,23 +5,37 @@
 {% block body %}
     <h1>Liste des catégories</h1>
 
-    
-        <table>
-            <thead>
+    <p>
+        <button class="addButton">
+            <a href=" {{ path('add_category') }} ">Ajouter un catégorie</a>
+        </button>
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Catégorie</th>
+                <th>Nombre de sujets</th>
+                <th>Dernier sujet</th>
+                <th>Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for category in categories %}
                 <tr>
-                    <td>Catégorie</td>
+                    <td>
+                        <a href="{{ path('show_category', {'id': category.id}) }}">{{category}}</a> 
+                    </td>
+                    <td>//</td>
+                    <td>(a voir)</td>
+                    <td>
+                        <a href="{{ path('edit_category', {'id': category.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a> 
+                        <a href="{{ path('delete_category', {'id': category.id}) }}"><i class="fa-solid fa-trash"></i></a>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                {% for category in categories %}
-                    <tr>
-                        <td>
-                            <a href="{{ path('show_category', {'id': category.id}) }}">{{category}}</a> 
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+            {% endfor %}
+        </tbody>
+    </table>
 
     
 {% endblock %}

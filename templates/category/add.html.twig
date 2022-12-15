@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if edit %}
+        MODIFICATION D'UNE CATEGORIE
+    {% else %}
+        AJOUT D'UNE CATEGORIE
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    {% if edit %}
+        <h1>Modification d'une catégorie</h1>
+    {% else %}
+        <h1>Ajout d'une catégorie</h1>
+    {% endif %}
+    
+
+    {{ form_start(formAddCategory) }}
+    <div>   
+        <p class="inputLine">{{ form_label(formAddCategory.nameCategory) }}</p>
+        <p class="inputLine">{{ form_widget(formAddCategory.nameCategory) }}</p>
+    </div>
+    <div>
+        <p class="inputLine">{{ form_widget(formAddCategory.submit) }}</p>
+    </div>
+    {{ form_end(formAddCategory) }}
+{% endblock %}

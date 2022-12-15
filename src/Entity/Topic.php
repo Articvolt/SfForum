@@ -41,6 +41,11 @@ class Topic
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $dateTopic;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -118,6 +123,18 @@ class Topic
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getDateTopic(): ?\DateTimeInterface
+    {
+        return $this->dateTopic;
+    }
+
+    public function setDateTopic(\DateTimeInterface $dateTopic): self
+    {
+        $this->dateTopic = $dateTopic;
 
         return $this;
     }

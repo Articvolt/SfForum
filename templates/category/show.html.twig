@@ -6,24 +6,24 @@
     <h1>{{ category }}</h1>
 
     
-        <table>
-            <thead>
-                <tr>
-                    <td>Sujet</td>
-                    <td>Auteur</td>
-                </tr>
-            </thead>
-            <tbody>
-                {% for topic in category.topics %}
-                    <tr>
-                        <td>
-                            <a href="{{ path('show_topic', {'id': topic.id}) }}">{{topic}}</a>
-                        </td>
-                        <td>//</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Sujet</th>
+                                                <th>Auteur</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for topic in category.topics %}
+                                                <tr>
+                                                    <td>
+                                                        <a href="{{ path('show_topic', {'id': topic.id}) }}">{{topic}}</a>
+                                                    </td>
+                                                    <td>{{ topic.user }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
 
     
 {% endblock %}
