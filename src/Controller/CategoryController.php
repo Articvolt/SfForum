@@ -21,4 +21,16 @@ class CategoryController extends AbstractController
             'categories' => $categories
         ]);
     }
+
+// AFFICHER UNE CATEGORIE--------------------------------------------------------
+    /**
+     * @Route("/category/{id}", name="show_category")
+     */
+    public function show(Category $category): Response
+    {
+// FONCTION QUI RECUPERE LE category DE LA BDD PAR SON ID
+        return $this->render('category/show.html.twig', [
+            'category' => $category
+        ]);
+    }
 }

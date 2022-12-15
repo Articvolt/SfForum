@@ -1,20 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TopicController!{% endblock %}
+{% block title %}Liste des sujets{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <h1>Liste des sujets</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    
+        <table>
+            <thead>
+                <tr>
+                    <td>sujets</td>
+                    <td>auteur</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for topic in topics %}
+                        <td>{{topic.nomtopic}}</td>
+                        <td>auteur</td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/laragon/www/exercices/SfForum/src/Controller/TopicController.php'|file_link(0) }}">src/Controller/TopicController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/laragon/www/exercices/SfForum/templates/topic/index.html.twig'|file_link(0) }}">templates/topic/index.html.twig</a></code></li>
-    </ul>
-</div>
+    
 {% endblock %}
