@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Post;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PostController extends AbstractController
 {
@@ -13,6 +15,20 @@ class PostController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('post/index.html.twig', []);
+        return $this->render('category/topics.html.twig', []);
+    }
+
+// SUPPRESSION MESSAGE ----------------------------------------------------
+    /**
+     * @Route("post/{id}/delete", name="delete_post")
+     */
+    public function delete(ManagerRegistry $doctrine, Post $post) {
+
+        $entityManager = $doctrine->getManager();
+        // enleve de la collection de la base de données
+        $entityManager->remove($post);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_post');
     }
 }

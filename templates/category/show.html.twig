@@ -5,25 +5,30 @@
 {% block body %}
     <h1>{{ category }}</h1>
 
-    
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>Sujet</th>
-                                                <th>Auteur</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for topic in category.topics %}
-                                                <tr>
-                                                    <td>
-                                                        <a href="{{ path('show_topic', {'id': topic.id}) }}">{{topic}}</a>
-                                                    </td>
-                                                    <td>{{ topic.user }}</td>
-                                                </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
+    <p>
+        <button class="addButton">
+            {# <a href=" {{ path('add_topic') }} ">Ajouter un catégorie</a> #}
+        </button>
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Sujet</th>
+                <th>Auteur</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for topic in category.topics %}
+                <tr>
+                    <td>
+                        <a href="{{ path('show_topic', {'id': topic.id}) }}">{{topic}}</a>
+                    </td>
+                    <td>{{ topic.user }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
     
 {% endblock %}
