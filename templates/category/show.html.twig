@@ -3,7 +3,7 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-    <h1>{{ category }}</h1>
+    <h1><a href="{{ path('app_category') }}">{{ category }}</a></h1>
 
     <p>
         <button class="addButton">
@@ -15,7 +15,9 @@
         <thead>
             <tr>
                 <th>Sujet</th>
+                <th>Créé le</th>
                 <th>Auteur</th>
+                <th>lock/delock</th>
             </tr>
         </thead>
         <tbody>
@@ -24,11 +26,12 @@
                     <td>
                         <a href="{{ path('show_topic', {'id': topic.id}) }}">{{topic}}</a>
                     </td>
+                    <td>{{topic.dateTopic | date("d-M-Y H:i:s")}}</td>
                     <td>{{ topic.user }}</td>
+                    <td>//</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
 
-    
 {% endblock %}
