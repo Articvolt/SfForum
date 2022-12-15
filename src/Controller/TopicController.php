@@ -43,3 +43,5 @@ class TopicController extends AbstractController
         ]);
     }
 }
+
+// https://www.youtube.com/watch?v=A94egHxWaHo : pagination tutoriel video
