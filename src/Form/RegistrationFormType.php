@@ -34,9 +34,17 @@ class RegistrationFormType extends AbstractType
             // le champ ne sera pas stocké en BDD
             'mapped' => false,
             'type' => PasswordType::class,
-            'invalid_message' => 'The password fields must match.',
+            'invalid_message' => 'Les mots de passes ne sont pas identiques.',
             'options' => ['attr' => ['class' => 'password field']],
             'required' => true, 
+            'constraints' => [
+                new Length([
+                    'min'=> 8,
+                    'minMessage' => 'Votre mot de passe nécessite {{ limit }} charactères',
+                    'max' => 4096,
+                    'maxMessage' => 'Your first name cannot be longer than {{ limit }} characters'
+                ])
+            ],
             'first_options' => ['label' => 'Mot de passe'],
             'second_options' => ['label' => 'Répéter le mot de passe'],            
         ])
