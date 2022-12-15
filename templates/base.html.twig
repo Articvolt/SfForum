@@ -17,10 +17,19 @@
                 <li>
                     <a href="{{ path('app_category') }}">Accueil</a>
                 </li>
-                <li>Inscription</li>
-                <li>Connexion</li>
-                <li>Déconnexion</li>
-                <li>Profil</li>
+                <li>
+                    <a href="{{ path('app_register') }}">Inscription</a>
+                </li>
+                <li>
+                    <a href="{{ path('app_login') }}">Connexion</a>
+                </li>
+                
+                {% if app.user %}
+                    <li>
+                        <a href="{{ path('app_logout') }}">Déconnexion</a>
+                    </li>
+                    <li>Profil</li>   
+                {% endif %}
             </ul>
         </nav>
 
