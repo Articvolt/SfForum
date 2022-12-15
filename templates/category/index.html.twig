@@ -3,5 +3,23 @@
 {% block title %}Liste des catégories{% endblock %}
 
 {% block body %}
+    <h1>Liste des catégories</h1>
 
+    
+        <table>
+            <thead>
+                <tr>
+                    <td>Catégorie</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for category in categories %}
+                        <td>{{category.nomCategory}}</td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+
+    
 {% endblock %}
