@@ -16,7 +16,9 @@
             <tbody>
                 {% for topic in category.topics %}
                     <tr>
-                        <td>{{topic}}</td>
+                        <td>
+                            <a href="{{ path('show_topic', {'id': topic.id}) }}">{{topic}}</a>
+                        </td>
                         <td>//</td>
                     </tr>
                 {% endfor %}

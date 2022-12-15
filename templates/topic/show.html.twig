@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{topic}}{% endblock %}
+
+{% block body %}
+    <h1>{{ topic }}</h1>
+
+    
+        <table>
+            <thead>
+                <tr>
+                    <td>sujets</td>
+                    <td>auteur</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in topic.posts %}
+                    <tr>
+                        <td>{{posts}}</td>
+                        <td>auteur</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+{% endblock %}
