@@ -22,13 +22,13 @@ class TopicController extends AbstractController
         ]);
     }
 
-// AFFICHER UNE CATEGORIE--------------------------------------------------------
+// AFFICHER UN SUJET--------------------------------------------------------
     /**
-     * @Route("/topic/{id}", name="show_topic")
-     */
+    * @Route("/topic/{id}", name="show_topic")
+    */
     public function show(Topic $topic): Response
     {
-// FONCTION QUI RECUPERE LE topic DE LA BDD PAR SON ID
+// FONCTION QUI RECUPERE LE SUJET DE LA BDD PAR SON ID
         return $this->render('topic/show.html.twig', [
             'topic' => $topic
         ]);

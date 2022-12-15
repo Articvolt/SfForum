@@ -25,7 +25,7 @@ class Category
     private $nameCategory;
 
     /**
-     * @ORM\OneToMany(targetEntity=topic::class, mappedBy="category")
+     * @ORM\OneToMany(targetEntity=Topic::class, mappedBy="category")
      */
     private $topics;
 

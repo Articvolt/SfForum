@@ -1,25 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des sujets{% endblock %}
+{% block title %}{% endblock %}
 
 {% block body %}
-    <h1>Liste des sujets</h1>
+    <h1>{{ category }}</h1>
 
     
         <table>
             <thead>
                 <tr>
-                    <td>sujets</td>
-                    <td>auteur</td>
+                    <td>Sujet</td>
+                    <td>Auteur</td>
                 </tr>
             </thead>
             <tbody>
-                {% for topic in topics %}
+                {% for topic in category.topics %}
                     <tr>
-                        <td>{{topics}}</td>
-                        <td>auteur</td>
+                        <td>{{topic}}</td>
+                        <td>//</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+
+    
 {% endblock %}

@@ -13,11 +13,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    {% for category in categories %}
-                        <td>{{category.nomCategory}}</td>
-                    {% endfor %}
-                </tr>
+                {% for category in categories %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('show_category', {'id': category.id}) }}">{{category}}</a> 
+                        </td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
 

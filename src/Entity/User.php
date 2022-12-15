@@ -43,12 +43,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $pseudonyme;
 
     /**
-     * @ORM\OneToMany(targetEntity=topic::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Topic::class, mappedBy="user")
      */
     private $topics;
 
     /**
-     * @ORM\OneToMany(targetEntity=post::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="user")
      */
     private $posts;
 
