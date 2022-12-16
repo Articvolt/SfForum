@@ -31,6 +31,19 @@ class TopicController extends AbstractController
         ]);
     }
 
+// AJOUTER UN TOPIC + PREMIER POST
+
+    /**
+    * @Route("/categorie/{id}/addTopic", name"add_topic")
+    */
+    public function addTopicPost(ManagerRegistry $doctrine, Request $request): Response
+    {
+        
+
+    }
+
+
+
 // AFFICHER UN SUJET--------------------------------------------------------
     /**
     * @Route("/topic/{id}", name="show_topic")

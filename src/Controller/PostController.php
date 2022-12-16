@@ -18,6 +18,11 @@ class PostController extends AbstractController
         return $this->render('category/topics.html.twig', []);
     }
 
+// AJOUTER UN MESSAGE
+
+
+
+
 // SUPPRESSION MESSAGE ----------------------------------------------------
     /**
      * @Route("post/{id}/delete", name="delete_post")

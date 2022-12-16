@@ -12,8 +12,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CategoryController extends AbstractController
 {
+    // PAGE D'ACCUEIL + LISTE CATEGORIES
     /**
-     * @Route("/category", name="app_category")
+     * @Route("/", name="app_category")
      */
     public function index(ManagerRegistry $doctrine): Response
     {
@@ -24,7 +25,7 @@ class CategoryController extends AbstractController
         ]);
     }
 
-// FONCTION D'AJOUT ET D'EDITION DE CATEGORY ------------------------------------
+// FONCTION D'AJOUT ET D'EDITION DE CATEGORIE ------------------------------------
     /**
      * @Route("/category/add", name="add_category")
      * @Route("/category/{id}/edit", name="edit_category")
@@ -62,7 +63,7 @@ class CategoryController extends AbstractController
     }
 
 
-// SUPPRESSION category ----------------------------------------------------
+// SUPPRESSION DE CATEGORIE ----------------------------------------------------
     /**
      * @Route("category/{id}/delete", name="delete_category")
      */
