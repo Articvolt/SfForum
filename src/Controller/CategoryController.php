@@ -36,7 +36,6 @@ class CategoryController extends AbstractController
             $category = new category();
         }
     
-
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
 

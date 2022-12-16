@@ -2,10 +2,11 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Entity\Topic;
-use DateTime;
+use App\Form\PostType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,27 +25,26 @@ class PostController extends AbstractController
 
 // AJOUTER UN MESSAGE
     /**
-     * @Route("/post/{id}/add", name="add_post")
+     * @Route("/post/add", name="add_post")
      */
-    public function add(Topic $topic, Request $request, Post $post, ManagerRegistry $doctrine)
+    public function add(Topic $topic, Request $request, ManagerRegistry $doctrine)
     {
-        //appel du formulaire
-        $postForm = $request->request;
+        // ajout d'un nouveau Post
+        $postForm = new Post();
+
+        $postForm = $this->createForm(PostType::class);
+        $postForm->handleRequest($request);
+
         // récuperation de l'utilisateur
         $user_id = $this->getUser();
         // filtre le message dans le formulaire
         $message = $postForm->filter('post');
-
         
         $entityManager = $doctrine->getManager();
-        // default -> to be replaced with connected user
+        // récupère l'id de l'utilisateur
         $auteur = $doctrine->getRepository(User::class)->findOneBy(['id' => $user_id]);
         
-        // Donne la date actuelle
-        // $date = new DateTime();
-
-        // ajout d'un nouveau Post
-        $postForm = new Post();
+        
         $postForm->setMessage($message);
         $postForm->setDatePost(new DateTime());
         $postForm->setUser($auteur);
@@ -54,8 +54,7 @@ class PostController extends AbstractController
         $entityManager->persist($postForm);
         $entityManager->flush();
 
-        $id = $post->getTopic()->getId();
-        return $this->redirectToRoute('show_topic',['id' => $id]);
+        return $this->redirectToRoute('show_topic',['id' => $topic->getId()]);
     }
 
 // SUPPRESSION MESSAGE ----------------------------------------------------

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if edit %}
+        MODIFICATION D'UN MESSAGE
+    {% else %}
+        AJOUT D'UN MESSAGE
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    {% if edit %}
+        <h1>Modification d'un message</h1>
+    {% else %}
+        <h1>Ajout d'un message</h1>
+    {% endif %}
+    
+
+    {{ form_start(formAddPost) }}
+    <div>   
+        <p class="inputLine">{{ form_label(formAddPost.namePost) }}</p>
+        <p class="inputLine">{{ form_widget(formAddPost.namePost) }}</p>
+    </div>
+    <div>
+        <p class="inputLine">{{ form_widget(formAddPost.submit) }}</p>
+    </div>
+    {{ form_end(formAddPost) }}
+{% endblock %}
