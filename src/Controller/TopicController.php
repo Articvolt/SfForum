@@ -2,12 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Post;
 use App\Entity\Topic;
+use App\Entity\Category;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TopicController extends AbstractController
@@ -33,14 +36,59 @@ class TopicController extends AbstractController
 
 // AJOUTER UN TOPIC + PREMIER POST
 
-    /**
-    * @Route("/categorie/{id}/addTopic", name"add_topic")
-    */
-    public function addTopicPost(ManagerRegistry $doctrine, Request $request): Response
-    {
+    // /**
+    // * @Route("/categorie/{id}/addTopic", name"add_topic")
+    // */
+    // public function addTopicPost(ManagerRegistry  $doctrine, Category $category, Request $request): Response
+    // {
+    //     $topic = new Topic;
         
+    //     $form = $this->createForm(TopicType::class);
+    //     $form->handleRequest($request);
 
-    }
+    //     if($form->isSubmitted() && $form->isValid()){
+            
+    //         $entityManager = $doctrine->getManager();
+
+    //         $nameTopic = $form->get("titreTopic")->getData();
+    //         $texteFirstPost = $form->get("texteFirstPost")->getData();
+
+    //         $auteur = $this->getUser();
+    //         $date = new DateTime();
+
+    //         // création d'un nouveau sujet
+    //         $topic = new Topic;
+    //         $topic->setnameTopic($nameTopic);
+    //         $topic->setUser($auteur);
+    //         $topic->setDateTopic($date);
+    //         $topic->setCategory($category);
+            
+
+    //         // ajout du topic dans la base de données
+    //         $entityManager->persist($topic); //équivalent de prepare()
+    //         $entityManager->flush(); //équivalent de execute()
+            
+    //         // création d'un nouveau message
+    //         $post = new Post;
+    //         $post->setNamePost($texteFirstPost);
+    //         $post->setUser($auteur);
+    //         $post->setDatePost($date);
+    //         $post->setTopic($topic);
+            
+    //         $entityManager->persist($post); 
+    //         $entityManager->flush();
+
+    //         return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+    //     }
+
+    //     //Vue pour afficher le formulaire d'ajout
+    //     return $this->render('topic/add.html.twig', [
+    //         'formAddTopic' =>$form->createView(),
+    //         'category' => $category
+    //     ]);
+
+    // }   
+
 
 
 

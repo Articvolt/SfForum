@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\PostRepository;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PostRepository;
 
 /**
  * @ORM\Entity(repositoryClass=PostRepository::class)
@@ -37,7 +39,7 @@ class Post
     /**
      * @ORM\Column(type="datetime")
      */
-    private $datePost;
+    private  $datePost;
 
     public function getId(): ?int
     {
@@ -68,32 +70,33 @@ class Post
         return $this;
     }
 
-    public function __toString()
-    {
-        return $this->message;
-    }
-
+    
     public function getUser(): ?User
     {
         return $this->user;
     }
-
+    
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
+        
         return $this;
     }
-
-    public function getDatePost(): ?\DateTimeInterface
+    
+    public function getDatePost(): ?DateTime
     {
         return $this->datePost;
     }
-
-    public function setDatePost(\DateTimeInterface $datePost): self
+    
+    public function setDatePost(DateTime $datePost): self
     {
         $this->datePost = $datePost;
-
+        
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->message;
     }
 }

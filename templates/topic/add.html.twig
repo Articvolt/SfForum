@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if edit %}
+        MODIFICATION D'UN SUJET
+    {% else %}
+        AJOUT D'UN SUJET
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    {% if edit %}
+        <h1>Modification d'un sujet</h1>
+    {% else %}
+        <h1>Ajout d'un sujet</h1>
+    {% endif %}
+    
+
+    {{ form_start(formAddTopic) }}
+    <div>   
+        <p class="inputLine">{{ form_label(formAddTopic.nameTopic) }}</p>
+        <p class="inputLine">{{ form_widget(formAddTopic.nameTopic) }}</p>
+    </div>
+    <div>
+        <p class="inputLine">{{ form_widget(formAddTopic.submit) }}</p>
+    </div>
+    {{ form_end(formAddTopic) }}
+{% endblock %}

@@ -6,6 +6,12 @@
 
     <h1><a href="{{ path('app_category') }}">{{ topic.category }}</a></h1>
     
+    <p>
+        <button class="addButton">
+            <a href=" {{ path('add_post', {'id': topic.id}) }} ">Ajouter un message</a>
+        </button>
+    </p>
+
     <h2>{{ topic }}</h2>
 
         <table>
