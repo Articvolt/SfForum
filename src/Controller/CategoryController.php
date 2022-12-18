@@ -31,7 +31,7 @@ class CategoryController extends AbstractController
      * @Route("/category/{id}/edit", name="edit_category")
      */
     public function add(ManagerRegistry $doctrine, Category $category = null, Request $request): Response {
-        // Le = null indique que la valeur par défaut de ce paramètre est null, ce qui signifie qu'il n'est pas obligatoire de passer une valeur à cet argument lors de l'appel de la méthode.
+        // Le = null indique qu'il n'est pas obligatoire de passer une valeur à cet argument lors de l'appel de la méthode.
         // Cette syntaxe est souvent utilisée pour permettre à une méthode de fonctionner à la fois comme une méthode de création et comme une méthode de modification. 
         // Si vous passez un objet Category existant à la méthode, elle fonctionnera en mode modification et mettra à jour l'objet existant. 
         // Si vous ne passez pas d'objet Category, la méthode fonctionnera en mode création et créera un nouvel objet Category.

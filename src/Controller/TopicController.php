@@ -36,58 +36,53 @@ class TopicController extends AbstractController
 
 // AJOUTER UN TOPIC + PREMIER POST
 
-    // /**
-    // * @Route("/categorie/{id}/addTopic", name"add_topic")
-    // */
-    // public function addTopicPost(ManagerRegistry  $doctrine, Category $category, Request $request): Response
-    // {
-    //     $topic = new Topic;
+    /**
+    * @Route("/categorie/{id}/addTopic", name"add_topic")
+    */
+    public function addTopicPost(ManagerRegistry  $doctrine, Category $category, Request $request): Response
+    {
+        $form = $this->createForm(TopicType::class);
+        // Récupération des données du formulaire
+        $form->handleRequest($request);
         
-    //     $form = $this->createForm(TopicType::class);
-    //     $form->handleRequest($request);
-
-    //     if($form->isSubmitted() && $form->isValid()){
+        if($form->isSubmitted() && $form->isValid()){
+            // Récupération des données du formulaire
+            $topic = $form->getData();
+            $entityManager = $doctrine->getManager();
+            $auteur = $this->getUser();
             
-    //         $entityManager = $doctrine->getManager();
+            $topic = $entityManager->getRepository(Topic::class)->find($topic->getId());
+            // $auteur = $this->getUser();
+             // Vérification si c'est une nouvelle création ou une mise à jour
+            if ($topic->getId()) {
+                // Mise à jour des champs de l'objet
+                $topic->setNameTopic($topic['NameTopic']);
+                $topic->setCategory($topic['category']);
+            } else {
+                // C'est une nouvelle création, on crée un nouvel objet
+                $topic = new Topic();
+                $topic->setNameTopic($topic['NameTopic']);
+                $topic->setCategory($topic['category']);
+                $topic->setUser($auteur);
+                $topic->setDateTopic(new \DateTime());
+            }
 
-    //         $nameTopic = $form->get("titreTopic")->getData();
-    //         $texteFirstPost = $form->get("texteFirstPost")->getData();
-
-    //         $auteur = $this->getUser();
-    //         $date = new DateTime();
-
-    //         // création d'un nouveau sujet
-    //         $topic = new Topic;
-    //         $topic->setnameTopic($nameTopic);
-    //         $topic->setUser($auteur);
-    //         $topic->setDateTopic($date);
-    //         $topic->setCategory($category);
+            // Persistence de l'objet
             
+            $entityManager->persist($topic);
+            $entityManager->flush();
 
-    //         // ajout du topic dans la base de données
-    //         $entityManager->persist($topic); //équivalent de prepare()
-    //         $entityManager->flush(); //équivalent de execute()
-            
-    //         // création d'un nouveau message
-    //         $post = new Post;
-    //         $post->setNamePost($texteFirstPost);
-    //         $post->setUser($auteur);
-    //         $post->setDatePost($date);
-    //         $post->setTopic($topic);
-            
-    //         $entityManager->persist($post); 
-    //         $entityManager->flush();
 
-    //         return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
-    //     }
+            return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+        }
 
-    //     //Vue pour afficher le formulaire d'ajout
-    //     return $this->render('topic/add.html.twig', [
-    //         'formAddTopic' =>$form->createView(),
-    //         'category' => $category
-    //     ]);
+        //Vue pour afficher le formulaire d'ajout
+        return $this->render('topic/add.html.twig', [
+            'formAddTopic' =>$form->createView(),
+            'category' => $category,
+        ]);
 
-    // }   
+    }   
 
 
 
