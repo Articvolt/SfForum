@@ -31,28 +31,38 @@ class CategoryController extends AbstractController
      * @Route("/category/{id}/edit", name="edit_category")
      */
     public function add(ManagerRegistry $doctrine, Category $category = null, Request $request): Response {
+        // Le = null indique que la valeur par défaut de ce paramètre est null, ce qui signifie qu'il n'est pas obligatoire de passer une valeur à cet argument lors de l'appel de la méthode.
+        // Cette syntaxe est souvent utilisée pour permettre à une méthode de fonctionner à la fois comme une méthode de création et comme une méthode de modification. 
+        // Si vous passez un objet Category existant à la méthode, elle fonctionnera en mode modification et mettra à jour l'objet existant. 
+        // Si vous ne passez pas d'objet Category, la méthode fonctionnera en mode création et créera un nouvel objet Category.
 
+        // création d'un nouvel objet "catégorie" 
         if(!$category) {
             $category = new category();
         }
     
+        // création d'une instance du formulaire de création de catégorie
         $form = $this->createForm(CategoryType::class, $category);
+        // gestion de la soumission du formulaire
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-
+            // récupère les données du formulaire
             $category = $form->getData();
+            // Le gestionnaire d'entités, ou EntityManager, est un objet utilisé pour gérer les entiés dans une application Doctrine. 
+            // Il est généralement utilisé pour enregistrer, mettre à jour et supprimer des entiés dans la base de données.
             $entityManager = $doctrine->getManager();
-            //prepare
+            //prepare l'enregistrement de la catégorie en base de données
             $entityManager->persist($category);
-            //execute
+            //enregistre la catégorie en base de données
             $entityManager->flush();
 
+            //redirige l'utilisateur vers la route 'app_category'
             return $this->redirectToRoute('app_category');
         }
 
 
-        //vue pour afficher le formulaire
+        // Si le formulaire n'a pas été soumis ou s'il n'est pas valide, affichez-le à nouveau à l'utilisateur
         return $this->render('category/add.html.twig', [
             //génère le formulaire visuellement
             'formAddCategory' =>$form->createView(),
