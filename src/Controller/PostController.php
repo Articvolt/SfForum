@@ -27,35 +27,38 @@ class PostController extends AbstractController
     // /**
     //  * @Route("/post/add", name="add_post")
     //  */
-    // public function add(Topic $topic, Request $request, ManagerRegistry $doctrine)
-    // {
-    //     // ajout d'un nouveau Post
-    //     $postForm = new Post();
+    public function add(ManagerRegistry $doctrine, Post $post = null, Request $request): Response {
 
-    //     $postForm = $this->createForm(PostType::class);
-    //     $postForm->handleRequest($request);
+        if(!$post) {
+            $post= new Post();
+        }
 
-    //     // récuperation de l'utilisateur
-    //     $user_id = $this->getUser();
-    //     // filtre le message dans le formulaire
-    //     $message = $postForm->filter('post');
-        
-    //     $entityManager = $doctrine->getManager();
-    //     // récupère l'id de l'utilisateur
-    //     $auteur = $doctrine->getRepository(User::class)->findOneBy(['id' => $user_id]);
-        
-        
-    //     $postForm->setMessage($message);
-    //     $postForm->setDatePost(new DateTime());
-    //     $postForm->setUser($auteur);
-    //     $postForm->setTopic($topic);
+        // construit un formulaire à partir d'un builder (PostType)
+        $form = $this->createForm(PostType::class, $post);
+        // récupère les données de l'objet pour les envoyer dans le formulaire
+        $form->handleRequest($request);
 
-    //     // Ajout dans la base de données
-    //     $entityManager->persist($postForm);
-    //     $entityManager->flush();
+        // si le formulaire est soumis et que les filtes ont été validés (fonctions natives de symfony)
+        if($form->isSubmitted() && $form->isValid()) {
 
-    //     return $this->redirectToRoute('show_topic',['id' => $topic->getId()]);
-    // }
+            $post = $form->getData();
+            // recupère depuis doctrine, le manager qui est initialisé (où se situe le persist et le flush)
+            $entityManager = $doctrine->getManager();
+            // équivalent tu prepare();
+            $entityManager->persist($post);
+            // équivalent du execute() -> insert into
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_post');
+        }
+
+        // vue pour afficher le formulaire d'ajout
+        return $this->render('Post/add.html.twig', [
+            // création d'une variable qui fait passer le formulaire qui a était créé visuellement
+            'formAddPost' => $form->createView(),
+            'edit' => $post->getId()
+        ]);
+    }
 
 // SUPPRESSION MESSAGE ----------------------------------------------------
     /**

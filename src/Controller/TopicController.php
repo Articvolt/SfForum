@@ -63,7 +63,7 @@ class TopicController extends AbstractController
             // ajoute la date actuelle
             $topic->setDateTopic(new \DateTime('now'));
             // ajoute l'id de la catégorie
-            $topic->setCategory($category);
+            // $topic->setCategory($category);
 
             //prepare l'enregistrement du sujet en base de données
             $entityManager->persist($topic);

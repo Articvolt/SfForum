@@ -20,10 +20,7 @@ class TopicType extends AbstractType
             ['label' => 'Nom du sujet', 'attr' => 
             ['class' => 'form-input']
             ])
-            // ->add('dateTopic',DateType::class, [
-            //     'data' => new DateTime()
-            //   ])
-            // ->add('category')
+            ->add('category')
             ->add('user')
             ->add('submit', SubmitType::class, ['label' => 'valider', 'attr' => [ 'class' => 'form-submit']])
         ;
