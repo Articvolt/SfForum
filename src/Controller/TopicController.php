@@ -40,11 +40,15 @@ class TopicController extends AbstractController
      * @Route("/topic/add", name="add_topic")
      * @Route("/topic/{id}/edit", name="edit_topic")
      */
-    public function add(ManagerRegistry $doctrine, Topic $topic = null, Category $category, Request $request) : Response 
+    public function add(ManagerRegistry $doctrine, Topic $topic = null, Request $request) : Response 
     {
         if(!$topic) {
             $topic = new Topic();
         }
+
+        $categoryId = $request->get('id');
+        $category = $doctrine->getRepository(Category::class)->find($categoryId);
+
 
         $form = $this->createForm(TopicType::class, $topic);      
         $form->handleRequest($request);
@@ -55,16 +59,10 @@ class TopicController extends AbstractController
             // récupère les données du formulaire
             $topic = $form->getData();
 
-            //récupère l'id de la catégorie
-            $idCategory = $category->getId();
             // ajoute la date actuelle
             $topic->setDateTopic(new \DateTime('now'));
-
-            // ajoute l'user du sujet
-            // $topic->setUser($auteur);
-
             // ajoute l'id de la catégorie
-            $topic->setCategory( $idCategory);
+            $topic->setCategory($category);
 
             //prepare l'enregistrement du sujet en base de données
             $entityManager->persist($topic);

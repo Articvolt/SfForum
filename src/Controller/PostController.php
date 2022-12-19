@@ -24,38 +24,38 @@ class PostController extends AbstractController
     }
 
 // AJOUTER UN MESSAGE
-    /**
-     * @Route("/post/add", name="add_post")
-     */
-    public function add(Topic $topic, Request $request, ManagerRegistry $doctrine)
-    {
-        // ajout d'un nouveau Post
-        $postForm = new Post();
+    // /**
+    //  * @Route("/post/add", name="add_post")
+    //  */
+    // public function add(Topic $topic, Request $request, ManagerRegistry $doctrine)
+    // {
+    //     // ajout d'un nouveau Post
+    //     $postForm = new Post();
 
-        $postForm = $this->createForm(PostType::class);
-        $postForm->handleRequest($request);
+    //     $postForm = $this->createForm(PostType::class);
+    //     $postForm->handleRequest($request);
 
-        // récuperation de l'utilisateur
-        $user_id = $this->getUser();
-        // filtre le message dans le formulaire
-        $message = $postForm->filter('post');
+    //     // récuperation de l'utilisateur
+    //     $user_id = $this->getUser();
+    //     // filtre le message dans le formulaire
+    //     $message = $postForm->filter('post');
         
-        $entityManager = $doctrine->getManager();
-        // récupère l'id de l'utilisateur
-        $auteur = $doctrine->getRepository(User::class)->findOneBy(['id' => $user_id]);
+    //     $entityManager = $doctrine->getManager();
+    //     // récupère l'id de l'utilisateur
+    //     $auteur = $doctrine->getRepository(User::class)->findOneBy(['id' => $user_id]);
         
         
-        $postForm->setMessage($message);
-        $postForm->setDatePost(new DateTime());
-        $postForm->setUser($auteur);
-        $postForm->setTopic($topic);
+    //     $postForm->setMessage($message);
+    //     $postForm->setDatePost(new DateTime());
+    //     $postForm->setUser($auteur);
+    //     $postForm->setTopic($topic);
 
-        // Ajout dans la base de données
-        $entityManager->persist($postForm);
-        $entityManager->flush();
+    //     // Ajout dans la base de données
+    //     $entityManager->persist($postForm);
+    //     $entityManager->flush();
 
-        return $this->redirectToRoute('show_topic',['id' => $topic->getId()]);
-    }
+    //     return $this->redirectToRoute('show_topic',['id' => $topic->getId()]);
+    // }
 
 // SUPPRESSION MESSAGE ----------------------------------------------------
     /**
