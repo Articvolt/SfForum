@@ -10,7 +10,6 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TopicController extends AbstractController
@@ -40,14 +39,16 @@ class TopicController extends AbstractController
      * @Route("/topic/add", name="add_topic")
      * @Route("/topic/{id}/edit", name="edit_topic")
      */
-    public function add(ManagerRegistry $doctrine, Topic $topic = null, Request $request) : Response 
+    public function add(ManagerRegistry $doctrine, Topic $topic = null,  Request $request) : Response 
     {
         if(!$topic) {
             $topic = new Topic();
         }
 
-        $categoryId = $request->get('id');
-        $category = $doctrine->getRepository(Category::class)->find($categoryId);
+        // Récupération de l'ID du parent à partir de l'URL de la requête
+        // $categoryId = $request->get('id');
+        // $category = $doctrine->getRepository(Category::class)->find($categoryId);
+        // $category = getId();
 
 
         $form = $this->createForm(TopicType::class, $topic);      
