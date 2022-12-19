@@ -49,7 +49,7 @@ class CategoryController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
             // récupère les données du formulaire
             $category = $form->getData();
-            // Le gestionnaire d'entités, ou EntityManager, est un objet utilisé pour gérer les entiés dans une application Doctrine. 
+            // Le gestionnaire d'entités, ou EntityManager, est un objet utilisé pour gérer les entités dans une application Doctrine. 
             // Il est généralement utilisé pour enregistrer, mettre à jour et supprimer des entiés dans la base de données.
             $entityManager = $doctrine->getManager();
             //prepare l'enregistrement de la catégorie en base de données

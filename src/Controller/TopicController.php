@@ -40,32 +40,37 @@ class TopicController extends AbstractController
      * @Route("/topic/add", name="add_topic")
      * @Route("/topic/{id}/edit", name="edit_topic")
      */
-    public function add(ManagerRegistry $doctrine, Topic $topic = null,Category $category, Request $request) : Response 
+    public function add(ManagerRegistry $doctrine, Topic $topic = null, Category $category, Request $request) : Response 
     {
-
         if(!$topic) {
             $topic = new Topic();
         }
 
         $form = $this->createForm(TopicType::class, $topic);      
         $form->handleRequest($request);
-        //si la données est "sanitize" on l'envoi
+
         if ($form->isSubmitted() && $form->isValid()) { 
+            // utilisé pour gérer les entités dans une application Doctrine.
             $entityManager = $doctrine->getManager();
-            
+            // récupère les données du formulaire
             $topic = $form->getData();
 
-            // date actuelle
-            $now = new \DateTime();
+            //récupère l'id de la catégorie
+            $idCategory = $category->getId();
             // ajoute la date actuelle
-            $topic->setDateTopic($now);
-            $topic->setCategory()->getId($category);
+            $topic->setDateTopic(new \DateTime('now'));
 
-            //prepare
+            // ajoute l'user du sujet
+            // $topic->setUser($auteur);
+
+            // ajoute l'id de la catégorie
+            $topic->setCategory( $idCategory);
+
+            //prepare l'enregistrement du sujet en base de données
             $entityManager->persist($topic);
-            //insert into
+            //enregistre le sujet en base de données
             $entityManager->flush();
-
+            //redirige l'utilisateur vers la route 'app_topic'
             return $this->redirectToRoute('app_topic');
         }
                    
