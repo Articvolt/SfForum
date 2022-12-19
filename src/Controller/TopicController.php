@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Post;
-use App\Entity\Topic;
 use App\Entity\Category;
+use App\Entity\Topic;
+use App\Form\TopicType;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,56 +37,47 @@ class TopicController extends AbstractController
 // AJOUTER UN TOPIC + PREMIER POST
 
     /**
-    * @Route("/categorie/{id}/addTopic", name"add_topic")
-    */
-    public function addTopicPost(ManagerRegistry  $doctrine, Category $category, Request $request): Response
+     * @Route("/topic/add", name="add_topic")
+     * @Route("/topic/{id}/edit", name="edit_topic")
+     */
+    public function add(ManagerRegistry $doctrine, Topic $topic = null,Category $category, Request $request) : Response 
     {
-        $form = $this->createForm(TopicType::class);
-        // Récupération des données du formulaire
-        $form->handleRequest($request);
-        
-        if($form->isSubmitted() && $form->isValid()){
-            // Récupération des données du formulaire
-            $topic = $form->getData();
-            $entityManager = $doctrine->getManager();
-            $auteur = $this->getUser();
-            
-            $topic = $entityManager->getRepository(Topic::class)->find($topic->getId());
-            // $auteur = $this->getUser();
-             // Vérification si c'est une nouvelle création ou une mise à jour
-            if ($topic->getId()) {
-                // Mise à jour des champs de l'objet
-                $topic->setNameTopic($topic['NameTopic']);
-                $topic->setCategory($topic['category']);
-            } else {
-                // C'est une nouvelle création, on crée un nouvel objet
-                $topic = new Topic();
-                $topic->setNameTopic($topic['NameTopic']);
-                $topic->setCategory($topic['category']);
-                $topic->setUser($auteur);
-                $topic->setDateTopic(new \DateTime());
-            }
 
-            // Persistence de l'objet
-            
-            $entityManager->persist($topic);
-            $entityManager->flush();
-
-
-            return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+        if(!$topic) {
+            $topic = new Topic();
         }
 
-        //Vue pour afficher le formulaire d'ajout
+        $form = $this->createForm(TopicType::class, $topic);      
+        $form->handleRequest($request);
+        //si la données est "sanitize" on l'envoi
+        if ($form->isSubmitted() && $form->isValid()) { 
+            $entityManager = $doctrine->getManager();
+            
+            $topic = $form->getData();
+
+            // date actuelle
+            $now = new \DateTime();
+            // ajoute la date actuelle
+            $topic->setDateTopic($now);
+            $topic->setCategory()->getId($category);
+
+            //prepare
+            $entityManager->persist($topic);
+            //insert into
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_topic');
+        }
+                   
+        //vue pour afficher le formulaire d'ajout ou d'edition
+        //vue pour afficher le formulaire d'ajout
         return $this->render('topic/add.html.twig', [
-            'formAddTopic' =>$form->createView(),
-            'category' => $category,
+            'formAddTopic' => $form->createView(),
+            'edit' =>$topic->getId(),  
+                               
         ]);
 
-    }   
-
-
-
-
+    }
 // AFFICHER UN SUJET--------------------------------------------------------
     /**
     * @Route("/topic/{id}", name="show_topic")
