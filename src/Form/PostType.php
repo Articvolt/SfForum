@@ -17,6 +17,8 @@ class PostType extends AbstractType
         $builder
             ->add('message', TextType::class, ['label' => 'Message'])
             // ->add('datePost', DateTimeType::class)
+            ->add('topic')
+            ->add('user')
             ->add('submit', SubmitType::class, ['label' => 'valider', 'attr' => [ 'class' => 'form-submit']])
         ;
     }

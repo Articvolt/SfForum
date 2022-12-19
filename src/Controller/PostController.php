@@ -26,8 +26,9 @@ class PostController extends AbstractController
 // AJOUTER UN MESSAGE
     /**
      * @Route("/post/add", name="add_post")
+     * @Route("/post/{id}/edit", name="edit_post")
      */
-    public function add(ManagerRegistry $doctrine, Post $post = null, Request $request): Response {
+    public function add(ManagerRegistry $doctrine, Topic $topic , Post $post = null, Request $request): Response {
 
         if(!$post) {
             $post= new Post();
@@ -51,7 +52,7 @@ class PostController extends AbstractController
             // équivalent du execute() -> insert into
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_post');
+            return $this->redirectToRoute('show_topic',['id' => $topic->getId()]);
         }
 
         // vue pour afficher le formulaire d'ajout
