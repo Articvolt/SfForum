@@ -6,6 +6,8 @@ use App\Entity\Post;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class PostType extends AbstractType
@@ -14,7 +16,7 @@ class PostType extends AbstractType
     {
         $builder
             ->add('message', TextType::class, ['label' => 'Message'])
-            ->add('datePost', DateTimeType::class)
+            // ->add('datePost', DateTimeType::class)
             ->add('submit', SubmitType::class, ['label' => 'valider', 'attr' => [ 'class' => 'form-submit']])
         ;
     }

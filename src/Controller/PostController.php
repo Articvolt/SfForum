@@ -24,9 +24,9 @@ class PostController extends AbstractController
     }
 
 // AJOUTER UN MESSAGE
-    // /**
-    //  * @Route("/post/add", name="add_post")
-    //  */
+    /**
+     * @Route("/post/add", name="add_post")
+     */
     public function add(ManagerRegistry $doctrine, Post $post = null, Request $request): Response {
 
         if(!$post) {
@@ -44,6 +44,8 @@ class PostController extends AbstractController
             $post = $form->getData();
             // recupère depuis doctrine, le manager qui est initialisé (où se situe le persist et le flush)
             $entityManager = $doctrine->getManager();
+
+            $post->setDatePost(new \DateTime('now'));
             // équivalent tu prepare();
             $entityManager->persist($post);
             // équivalent du execute() -> insert into
@@ -53,7 +55,7 @@ class PostController extends AbstractController
         }
 
         // vue pour afficher le formulaire d'ajout
-        return $this->render('Post/add.html.twig', [
+        return $this->render('post/add.html.twig', [
             // création d'une variable qui fait passer le formulaire qui a était créé visuellement
             'formAddPost' => $form->createView(),
             'edit' => $post->getId()
