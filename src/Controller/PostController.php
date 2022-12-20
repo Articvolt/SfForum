@@ -2,16 +2,16 @@
 
 namespace App\Controller;
 
-use DateTime;
 use App\Entity\Post;
-use App\Entity\User;
 use App\Entity\Topic;
 use App\Form\PostType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class PostController extends AbstractController
 {
@@ -25,10 +25,11 @@ class PostController extends AbstractController
 
 // AJOUTER UN MESSAGE
     /**
-     * @Route("/post/add", name="add_post")
+     * @Route("/post/add/{idTopic}", name="add_post")
      * @Route("/post/{id}/edit", name="edit_post")
+     * @ParamConverter("topic", options={"mapping": {"idTopic": "id"}})
      */
-    public function add(ManagerRegistry $doctrine, Topic $topic , Post $post = null, Request $request): Response {
+    public function add(ManagerRegistry $doctrine, Topic $topic , Post $post = null, Security $security, Request $request): Response {
 
         if(!$post) {
             $post= new Post();
@@ -42,11 +43,14 @@ class PostController extends AbstractController
         // si le formulaire est soumis et que les filtes ont été validés (fonctions natives de symfony)
         if($form->isSubmitted() && $form->isValid()) {
 
-            $post = $form->getData();
-            // recupère depuis doctrine, le manager qui est initialisé (où se situe le persist et le flush)
-            $entityManager = $doctrine->getManager();
-
+            $user = $security->getUser();
+            $post->setUser($user);
             $post->setDatePost(new \DateTime('now'));
+            
+            // recupère depuis doctrine, le manager qui est initialisé (où se situe le persist et le flush)
+            $post = $form->getData();
+
+            $entityManager = $doctrine->getManager();
             // équivalent tu prepare();
             $entityManager->persist($post);
             // équivalent du execute() -> insert into

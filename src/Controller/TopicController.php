@@ -2,15 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\Category;
 use App\Entity\Topic;
 use App\Form\TopicType;
+use App\Entity\Category;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class TopicController extends AbstractController
 {
@@ -36,41 +38,41 @@ class TopicController extends AbstractController
 // AJOUTER UN TOPIC + PREMIER POST
 
     /**
-     * @Route("/topic/add", name="add_topic")
-     * @Route("/topic/{id}/edit", name="edit_topic")
+     * @Route("/topic/add/{idCategory}", name="add_topic")
+     * @Route("/topic/{idTopic}/edit", name="edit_topic")
+     * @ParamConverter("topic", options = {"mapping": {"idTopic": "id"}})
+     * @ParamConverter("category", options={"mapping": {"idCategory": "id"}})
      */
-    public function add(ManagerRegistry $doctrine, Topic $topic = null,  Request $request) : Response 
+    public function add(ManagerRegistry $doctrine, Topic $topic = null, Security $security, Category $category, Request $request) : Response 
     {
         if(!$topic) {
             $topic = new Topic();
         }
 
-        // Récupération de l'ID du parent à partir de l'URL de la requête
-        // $categoryId = $request->get('id');
-        // $category = $doctrine->getRepository(Category::class)->find($categoryId);
-        // $category = getId();
-
-
         $form = $this->createForm(TopicType::class, $topic);      
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) { 
-            // utilisé pour gérer les entités dans une application Doctrine.
-            $entityManager = $doctrine->getManager();
-            // récupère les données du formulaire
-            $topic = $form->getData();
-
+            
+            // On récupèrer l'utilisateur en session
+            $user = $security->getUser();
+            $topic->setUser($user);
             // ajoute la date actuelle
             $topic->setDateTopic(new \DateTime('now'));
             // ajoute l'id de la catégorie
-            // $topic->setCategory($category);
-
+            $topic->setCategory($category);
+            
+            // récupère les données du formulaire
+            $topic = $form->getData();
+            
+            // utilisé pour gérer les entités dans une application Doctrine.
+            $entityManager = $doctrine->getManager();
             //prepare l'enregistrement du sujet en base de données
             $entityManager->persist($topic);
             //enregistre le sujet en base de données
             $entityManager->flush();
             //redirige l'utilisateur vers la route 'app_topic'
-            return $this->redirectToRoute('app_topic');
+            return $this->redirectToRoute('show_topic', ['idTopic'=> 'id']);
         }
                    
         //vue pour afficher le formulaire d'ajout ou d'edition
@@ -80,11 +82,26 @@ class TopicController extends AbstractController
             'edit' =>$topic->getId(),  
                                
         ]);
+    }
 
+// SUPPRESSION TOPIC ----------------------------------------------------
+    /**
+     * @Route("topic/{idTopic}/delete", name="delete_topic")
+     * @ParamConverter("topic", options = {"mapping": {"idTopic": "id"}})
+     */
+    public function delete(ManagerRegistry $doctrine, topic $topic) {
+        $idCategory = $topic->getCategory()->getId();
+        // dd($idCategory);
+        $entityManager = $doctrine->getManager();
+        // enleve de la collection de la base de données
+        $entityManager->remove($topic);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('show_category', ['id' => $idCategory]);
     }
 // AFFICHER UN SUJET--------------------------------------------------------
     /**
-    * @Route("/topic/{id}", name="show_topic")
+    * @Route("/topic/{idTopic}", name="show_topic")
     */
     public function show(Topic $topic): Response
     {
