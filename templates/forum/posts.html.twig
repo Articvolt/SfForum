@@ -8,7 +8,7 @@
 {% if app.user %}
     <p>
         <button class="addButton">
-            <a href=" {{ path('add_post', {'id': topic.id}) }} ">Ajouter un message</a>
+            <a href=" {{ path('add_post', {'idTopic': topic.id}) }} ">Ajouter un message</a>
         </button>
     </p>  
 {% endif %}
@@ -31,7 +31,7 @@
                     <td>{{ post.datePost | date("d-M-Y H:i:s") }}</td>
                     <td>{{ post.user }}</td>
                     <td>
-                        <a href=" {{ path('edit_post', {'id': post.id}) }} "><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href=" {{ path('edit_post', {'id': post.id, 'idTopic': topic.id}) }} "><i class="fa-solid fa-pen-to-square"></i></a>
                         <a href="{{ path('delete_post', {'id': post.id}) }}"><i class="fa-solid fa-trash"></i></a>
                     </td>
                 </tr>

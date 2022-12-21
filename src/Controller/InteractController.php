@@ -171,14 +171,14 @@ class InteractController extends AbstractController
 // AJOUT ET EDITION D'UN MESSAGE
 
 /**
-     * @Route("/post/add", name="add_post")
-     * @Route("/post/{id}/edit", name="edit_post")
+     * @Route("forum/{idTopic}/post/add", name="add_post")
+     * @Route("forum/{idTopic}/post/{id}/edit", name="edit_post")
+     * @ParamConverter("topic", options={"mapping": {"idTopic": "id"}})
      */
-    public function addPost(ManagerRegistry $doctrine, Post $post = null, Request $request): Response {
+    public function addPost(ManagerRegistry $doctrine,Topic $topic, Post $post = null, Request $request): Response {
 
-        if(!$post) {
-            $post= new Post();
-        }
+        
+        $post= new Post();
 
         // construit un formulaire à partir d'un builder (PostType)
         $form = $this->createForm(PostType::class, $post);
@@ -192,19 +192,19 @@ class InteractController extends AbstractController
             $post = $form->getData();
             $entityManager = $doctrine->getManager();
 
-            $idTopic = $post->getTopic()->getId();
-
             // récupère le User
             $post->setUser($this->getUser());
             // récupère la date
             $post->setDatePost(new \DateTime('now'));
+            // ajout du topic
+            $topic->addPost($post);
 
             // équivalent tu prepare();
             $entityManager->persist($post);
             // équivalent du execute() -> insert into
             $entityManager->flush();
 
-
+            $idTopic=$topic->getId();
             return $this->redirectToRoute('show_post',['id' => $idTopic]);
         }
 
