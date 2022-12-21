@@ -2,12 +2,10 @@
 
 namespace App\Form;
 
-use DateTime;
 use App\Entity\Topic;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
@@ -19,6 +17,10 @@ class TopicType extends AbstractType
             ->add('nameTopic', TextType::class,
             ['label' => 'Nom du sujet', 'attr' => 
             ['class' => 'form-input']
+            ])
+            ->add('firstMessage', TextareaType::class, [
+                // le champ n'est pas lié à une propriété d'une entité ("mapped" => false).
+                "mapped" => false,
             ])
             ->add('submit', SubmitType::class, ['label' => 'valider', 'attr' => [ 'class' => 'form-submit']])
         ;
