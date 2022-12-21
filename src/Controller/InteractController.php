@@ -101,17 +101,14 @@ class InteractController extends AbstractController
         // création du formulaire
         $form = $this->createForm(TopicType::class, $topic);
         $form->handleRequest($request);
-        
         $entityManager = $doctrine->getManager();
 
-        
         if ($form->isSubmitted() && $form->isValid()) {
             
             // PARTIE TOPIC 
             
             // récupère les données du formulaire
             $topic = $form->getData();
-
             // ajoute l'utilisateur actuel
             $topic->setUser($this->getUser());
             // ajoute la date
@@ -134,10 +131,9 @@ class InteractController extends AbstractController
             
             // préparation pour l'enregistrement du message
             $entityManager->persist($post);
-
             // envoi l'enregistrement de topic et post
             $entityManager->flush();
-            
+            // récupération de l'id de la categorie
             $idCategory=$category->getId();
             return $this->redirectToRoute("show_topic", ["id" => $idCategory]);
         }
@@ -175,9 +171,9 @@ class InteractController extends AbstractController
      * @Route("forum/{idTopic}/post/{id}/edit", name="edit_post")
      * @ParamConverter("topic", options={"mapping": {"idTopic": "id"}})
      */
+
     public function addPost(ManagerRegistry $doctrine,Topic $topic, Post $post = null, Request $request): Response {
 
-        
         $post= new Post();
 
         // construit un formulaire à partir d'un builder (PostType)
@@ -203,7 +199,7 @@ class InteractController extends AbstractController
             $entityManager->persist($post);
             // équivalent du execute() -> insert into
             $entityManager->flush();
-
+            // récupèration de l'id du sujet
             $idTopic=$topic->getId();
             return $this->redirectToRoute('show_post',['id' => $idTopic]);
         }
