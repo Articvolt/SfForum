@@ -31,7 +31,7 @@ class Topic
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="topic")
+     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="topic", cascade={"remove"})
      */
     private $posts;
 

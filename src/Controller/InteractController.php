@@ -114,6 +114,8 @@ class InteractController extends AbstractController
 
             // ajoute l'utilisateur actuel
             $topic->setUser($this->getUser());
+            // ajoute la date
+            $topic->setDateTopic(new \DateTime('now'));
             // ajoute le sujet à la categorie
             $category->addTopic($topic);
             // préparation pour l'enregistrement du sujet
@@ -127,6 +129,8 @@ class InteractController extends AbstractController
             $post->setUser($this->getUser());
             // ajoute le sujet au message
             $post->setTopic($topic);
+            // ajoute la date
+            $post->setDatePost(new \DateTime('now'));
             
             // préparation pour l'enregistrement du message
             $entityManager->persist($post);
@@ -135,7 +139,7 @@ class InteractController extends AbstractController
             $entityManager->flush();
             
             $idCategory=$category->getId();
-            return $this->redirectToRoute("topics", ["id" => $idCategory]);
+            return $this->redirectToRoute("show_topic", ["id" => $idCategory]);
         }
 
         // vue pour afficher le formulaire d'ajout
