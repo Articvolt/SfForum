@@ -22,9 +22,11 @@ class ForumController extends AbstractController
 
     public function showTopic(Category $category, PaginatorInterface $paginator, Request $request): Response
     {
+        $topics = $category->getTopics();
         $topics = $paginator->paginate(
-            $category->getTopics(),
-            $request->query->getInt('page', 1), 4
+            $topics,
+            $request->query->getInt('page', 1), 
+            4
         );
 
         return $this->render('forum/topics.html.twig', [
@@ -46,7 +48,8 @@ class ForumController extends AbstractController
     {
         $posts = $paginator->paginate(
             $topic->getPosts(), 
-            $request->query->getInt('page', 1), 4
+            $request->query->getInt('page', 1), 
+            4
         );
 
         return $this->render('forum/posts.html.twig', [
