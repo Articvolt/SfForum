@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class InteractController extends AbstractController
 {
@@ -90,7 +91,7 @@ class InteractController extends AbstractController
     /**
     * @Route("forum/{idCategory}/topic/add", name="add_topic")
     * @Route("forum/{idCategory}/topic/{id}/edit", name="edit_topic")
-    * @paramConverter("category", options={"mapping": {"idCategory": "id"})
+    * @ParamConverter("category", options={"mapping": {"idCategory": "id"}})
     */
     public function addTopic(ManagerRegistry $doctrine, Category $category, Request $request): Response {
         
@@ -103,12 +104,11 @@ class InteractController extends AbstractController
         
         $entityManager = $doctrine->getManager();
 
-        $idCategory=$category->getId();
         
         if ($form->isSubmitted() && $form->isValid()) {
-
+            
             // PARTIE TOPIC 
-
+            
             // récupère les données du formulaire
             $topic = $form->getData();
 
@@ -118,7 +118,7 @@ class InteractController extends AbstractController
             $category->addTopic($topic);
             // préparation pour l'enregistrement du sujet
             $entityManager->persist($topic);
-
+            
             // PARTIE POST
             
             // ajoute le message
@@ -127,13 +127,14 @@ class InteractController extends AbstractController
             $post->setUser($this->getUser());
             // ajoute le sujet au message
             $post->setTopic($topic);
-
+            
             // préparation pour l'enregistrement du message
             $entityManager->persist($post);
 
             // envoi l'enregistrement de topic et post
             $entityManager->flush();
-
+            
+            $idCategory=$category->getId();
             return $this->redirectToRoute("topics", ["id" => $idCategory]);
         }
 

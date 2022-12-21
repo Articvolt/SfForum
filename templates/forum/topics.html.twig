@@ -8,7 +8,7 @@
 {% if app.user %}
     <p>
         <button class="addButton">
-            <a href=" {{ path('add_topic', {'id': category.id}) }} ">Ajouter un sujet</a>
+            <a href=" {{ path('add_topic', {'idCategory': category.id}) }} ">Ajouter un sujet</a>
         </button>
     </p>
 {% endif %}
@@ -33,7 +33,7 @@
                 <td>{{ topic.user }}</td>
                 <td>//</td>
                 <td>
-                    <a href="{{ path('edit_topic', {'id': topic.id}) }} "><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="{{ path('edit_topic', {'idCategory': topic.id}) }} "><i class="fa-solid fa-pen-to-square"></i></a>
                     <a href="{{ path('delete_topic', {'id': topic.id}) }}"><i class="fa-solid fa-trash"></i></a>
                 </td>
             </tr>
