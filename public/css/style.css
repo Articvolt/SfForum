@@ -42,3 +42,9 @@ table tr td a {
     text-decoration: none;
     color: brown;
 }
+
+/* icone verrou déverouillé */
+table tr td a .fa-unlock, table tr td a .fa-check  {
+    color: green;
+}
+

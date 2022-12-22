@@ -181,6 +181,36 @@ class InteractController extends AbstractController
         return $this->redirectToRoute("show_topic", ["id" => $topic->getCategory()->getId()]);
     }
 
+// RESOLU UN TOPIC
+
+    /**
+    * @Route("forum/{id}/resolved", name="resolved_topic")
+    */
+    public function resolvedTopic(ManagerRegistry $doctrine, Topic $topic) {
+        // changement du booleen du verrou
+        $topic->setisResolved(true);
+        $entityManager = $doctrine->getManager();
+        $entityManager->persist($topic);
+        $entityManager->flush();
+
+        return $this->redirectToRoute("show_topic", ["id" => $topic->getCategory()->getId()]);
+    }
+
+// NON RESOLU UN TOPIC
+
+    /**
+    * @Route("forum/{id}/notResolved", name="notResolved_topic")
+    */
+    public function notResolvedTopic(ManagerRegistry $doctrine, Topic $topic) {
+        // changement du booleen du verrou
+        $topic->setisResolved(false);
+        $entityManager = $doctrine->getManager();
+        $entityManager->persist($topic);
+        $entityManager->flush();
+
+        return $this->redirectToRoute("show_topic", ["id" => $topic->getCategory()->getId()]);
+    }
+
 // SUPPRESSION D'UN SUJET ----------------------------------------------------
     /**
      * @Route("forum/{id}/delete", name="delete_topic")
@@ -193,7 +223,7 @@ class InteractController extends AbstractController
         $entityManager->remove($topic);
         $entityManager->flush();
 
-        return $this->redirectToRoute('show_topic', ['id' => $topic->getCategory()->getId()]);
+        return $this->redirectToRoute('show_topic', ['id' => $idCategory]);
     }
 
 //======================================= POST ===============================================
