@@ -154,15 +154,32 @@ class InteractController extends AbstractController
 // VERROUILLER UN TOPIC
 
     /**
-     * @Route("
-     */
+    * @Route("forum/{id}/lock", name="lock_topic")
+    */
+    public function lockTopic(ManagerRegistry $doctrine, Topic $topic) {
+        // changement du booleen du verrou
+        $topic->setisLocked(true);
+        $entityManager = $doctrine->getManager();
+        $entityManager->persist($topic);
+        $entityManager->flush();
 
-// DEVEROUILLER UN TOPIC
+        return $this->redirectToRoute("show_topic", ["id" => $topic->getCategory()->getId()]);
+    }
+
+// DEVERROUILLER UN TOPIC
 
     /**
-     * @Route("
-     */
+    * @Route("forum/{id}/unlock", name="unlock_topic")
+    */
+    public function unlockTopic(ManagerRegistry $doctrine, Topic $topic) {
+        // changement du booleen du verrou
+        $topic->setisLocked(false);
+        $entityManager = $doctrine->getManager();
+        $entityManager->persist($topic);
+        $entityManager->flush();
 
+        return $this->redirectToRoute("show_topic", ["id" => $topic->getCategory()->getId()]);
+    }
 
 // SUPPRESSION D'UN SUJET ----------------------------------------------------
     /**
@@ -176,7 +193,7 @@ class InteractController extends AbstractController
         $entityManager->remove($topic);
         $entityManager->flush();
 
-        return $this->redirectToRoute('show_topic', ['id' => $idCategory]);
+        return $this->redirectToRoute('show_topic', ['id' => $topic->getCategory()->getId()]);
     }
 
 //======================================= POST ===============================================

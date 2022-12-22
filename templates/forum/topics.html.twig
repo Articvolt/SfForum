@@ -21,6 +21,7 @@
             <th>Auteur</th>
             <th>lock/delock</th>
             <th>options</th>
+            <th>résolu</th>
         </tr>
     </thead>
     <tbody>
@@ -31,10 +32,19 @@
                 </td>
                 <td>{{topic.dateTopic | date("d-M-Y H:i:s")}}</td>
                 <td>{{ topic.user }}</td>
-                <td>//</td>
+                <td>
+                    {% if topic.isLocked == true %}
+                        <a href="{{ path('unlock_topic', {'id': topic.id}) }}"><i class="fa-solid fa-lock"></i></a>
+                    {% else %}
+                        <a href="{{ path('lock_topic', {'id': topic.id}) }}"><i class="fa-solid fa-unlock"></i></a>
+                    {% endif %}
+                </td>
                 <td>
                     <a href="{{ path('edit_topic', {'idTopic': topic.id, 'idCategory':category.id}) }} "><i class="fa-solid fa-pen-to-square"></i></a>
                     <a href="{{ path('delete_topic', {'id': topic.id}) }}"><i class="fa-solid fa-trash"></i></a>
+                </td>
+                <td>
+                    
                 </td>
             </tr>
         {% endfor %}
