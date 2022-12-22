@@ -46,9 +46,22 @@ class Topic
      */
     private $dateTopic;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isLocked;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isResolved;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
+        // valeurs par défaut
+        $this->isLocked = false;
+        $this->isResolved = false;
     }
 
     public function getId(): ?int
@@ -135,6 +148,30 @@ class Topic
     public function setDateTopic(\DateTimeInterface $dateTopic): self
     {
         $this->dateTopic = $dateTopic;
+
+        return $this;
+    }
+
+    public function isIsLocked(): ?bool
+    {
+        return $this->isLocked;
+    }
+
+    public function setIsLocked(bool $isLocked): self
+    {
+        $this->isLocked = $isLocked;
+
+        return $this;
+    }
+
+    public function isIsResolved(): ?bool
+    {
+        return $this->isResolved;
+    }
+
+    public function setIsResolved(bool $isResolved): self
+    {
+        $this->isResolved = $isResolved;
 
         return $this;
     }
