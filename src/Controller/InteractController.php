@@ -12,6 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
@@ -90,19 +91,23 @@ class InteractController extends AbstractController
 
     /**
     * @Route("forum/{idCategory}/topic/add", name="add_topic")
-    * @Route("forum/{idCategory}/topic/{id}/edit", name="edit_topic")
+    * @Route("forum/{idCategory}/topic/{idTopic}/edit", name="edit_topic")
     * @ParamConverter("category", options={"mapping": {"idCategory": "id"}})
+    * @ParamConverter("topic", options={"mapping": {"idTopic": "id"}})
     */
-    public function addTopic(ManagerRegistry $doctrine, Category $category, Request $request): Response {
+    public function addTopic(ManagerRegistry $doctrine, Category $category, Topic $topic = null, Request $request): Response {
         
-        $topic = new Topic;
-        $post = new Post;
-
         // création du formulaire
         $form = $this->createForm(TopicType::class, $topic);
         $form->handleRequest($request);
         $entityManager = $doctrine->getManager();
+        $post = null;
 
+        if (!$topic) {
+            $topic = new Topic;
+            $post = new Post;       
+        }
+        
         if ($form->isSubmitted() && $form->isValid()) {
             
             // PARTIE TOPIC 
@@ -142,10 +147,22 @@ class InteractController extends AbstractController
         return $this->render('interact/addTopic.html.twig', [
             // création d'une variable qui fait passer le formulaire qui a était créé visuellement
             'formAddTopic' => $form->createView(),
-            'topic' => $topic,
-            'edit' => $topic->getId()
+            'edit' => $topic->getId(),
         ]);
     }
+
+// VERROUILLER UN TOPIC
+
+    /**
+     * @Route("
+     */
+
+// DEVEROUILLER UN TOPIC
+
+    /**
+     * @Route("
+     */
+
 
 // SUPPRESSION D'UN SUJET ----------------------------------------------------
     /**
@@ -168,13 +185,16 @@ class InteractController extends AbstractController
 
 /**
      * @Route("forum/{idTopic}/post/add", name="add_post")
-     * @Route("forum/{idTopic}/post/{id}/edit", name="edit_post")
+     * @Route("forum/{idTopic}/post/{idPost}/edit", name="edit_post")
      * @ParamConverter("topic", options={"mapping": {"idTopic": "id"}})
+     * @ParamConverter("post", options={"mapping": {"idPost": "id"}})
      */
 
     public function addPost(ManagerRegistry $doctrine,Topic $topic, Post $post = null, Request $request): Response {
 
-        $post= new Post();
+        if(!$post){
+            $post= new Post();
+        }
 
         // construit un formulaire à partir d'un builder (PostType)
         $form = $this->createForm(PostType::class, $post);
@@ -214,7 +234,7 @@ class InteractController extends AbstractController
 
 // SUPPRESSION MESSAGE ----------------------------------------------------
     /**
-     * @Route("forum/post/{id}/delete", name="delete_post")
+     * @Route("forum/post/{idPost}/delete", name="delete_post")
      */
     public function deletePost(ManagerRegistry $doctrine, Post $post) {
 

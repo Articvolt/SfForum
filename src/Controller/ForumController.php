@@ -17,8 +17,8 @@ class ForumController extends AbstractController
 // AFFICHER LES SUJETS D'UNE CATEGORIE-----------------------------------------------------
    
     /**
-     * @Route("/forum/topic/{id}", name="show_topic")
-     */
+    * @Route("/forum/topic/{id}", name="show_topic")
+    */
 
     public function showTopic(Category $category, PaginatorInterface $paginator, Request $request): Response
     {
@@ -54,7 +54,7 @@ class ForumController extends AbstractController
 
         return $this->render('forum/posts.html.twig', [
             'topic' => $topic,
-            'posts' => $posts,
+            'posts' => $posts
         ]);
     }
 }

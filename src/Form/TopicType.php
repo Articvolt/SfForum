@@ -19,6 +19,7 @@ class TopicType extends AbstractType
             ['label' => 'Nom du sujet', 'attr' => 
             ['class' => 'form-input']
             ])
+            // ajoute le champ du premier message
             ->add('firstMessage', TextareaType::class, [
                 // le champ n'est pas lié à une propriété d'une entité ("mapped" => false).
                 "mapped" => false,
