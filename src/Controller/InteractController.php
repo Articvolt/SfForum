@@ -95,7 +95,7 @@ class InteractController extends AbstractController
     * @ParamConverter("category", options={"mapping": {"idCategory": "id"}})
     * @ParamConverter("topic", options={"mapping": {"idTopic": "id"}})
     */
-    public function addTopic(ManagerRegistry $doctrine, Category $category, Topic $topic = null, Request $request): Response {
+    public function addTopic(ManagerRegistry $doctrine, Category $category, Topic $topic = null , Request $request): Response {
         
         // création du formulaire
         $form = $this->createForm(TopicType::class, $topic);
@@ -112,6 +112,7 @@ class InteractController extends AbstractController
             
             // PARTIE TOPIC 
             
+
             // récupère les données du formulaire
             $topic = $form->getData();
             // ajoute l'utilisateur actuel
@@ -120,6 +121,7 @@ class InteractController extends AbstractController
             $topic->setDateTopic(new \DateTime('now'));
             // ajoute le sujet à la categorie
             $category->addTopic($topic);
+            // dump($topic);die;
             // préparation pour l'enregistrement du sujet
             $entityManager->persist($topic);
             

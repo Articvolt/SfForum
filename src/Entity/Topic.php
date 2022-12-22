@@ -47,18 +47,19 @@ class Topic
     private $dateTopic;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", options={"default" : false})
      */
-    private $isLocked;
+    private $isLocked = null;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", options={"default" : false})
      */
-    private $isResolved;
+    private $isResolved = null;
 
     public function __construct()
     {
         $this->posts = new ArrayCollection();
+
     }
 
     public function getId(): ?int
